@@ -71,6 +71,7 @@ export default function CourierList() {
         from: startOfMonth(new Date()),
         to: endOfMonth(new Date()),
       },
+      courier_id: "37",
       status_type: "1",
     },
   });
@@ -99,27 +100,17 @@ export default function CourierList() {
   console.log(data);
 
   const columns: ColumnDef<ShipmentAgeingItem>[] = [
-
     {
       accessorKey: "id",
       header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Order ID"
-          table={table}
-        />
+        <DatatableColumnHeader column={column} title="Order ID" table={table} />
       ),
-
     },
-    
+
     {
       accessorKey: "acno",
       header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="ACNO"
-          table={table}
-        />
+        <DatatableColumnHeader column={column} title="ACNO" table={table} />
       ),
     },
     {
@@ -131,7 +122,6 @@ export default function CourierList() {
           table={table}
         />
       ),
-
     },
     {
       accessorKey: "consigment_no",
@@ -164,7 +154,11 @@ export default function CourierList() {
     {
       accessorKey: "last_mile_status",
       header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="Last Mile Status" table={table} />
+        <DatatableColumnHeader
+          column={column}
+          title="Last Mile Status"
+          table={table}
+        />
       ),
       cell: ({ row }) => {
         const status = row.getValue("last_mile_status") as string;
@@ -192,7 +186,8 @@ export default function CourierList() {
         />
       ),
       cell: ({ row }) => (
-          <span>{format(row.original.booking_date, "dd-MMM-yyyy")}</span>
+        <span>
+          {row.original.booking_date == "-" ? "-" : format(row.original.booking_date, "yyyy-MMM-dd")}</span>
       ),
     },
     {
@@ -205,7 +200,9 @@ export default function CourierList() {
         />
       ),
       cell: ({ row }) => (
-          <span>{format(row.original.last_mile_status_date, "dd-MMM-yyyy")}</span>
+        <span>
+          {row.original.last_mile_status_date == "-" ? "-" : format(row.original.last_mile_status_date, "yyyy-MMM-dd")}
+          </span>
       ),
     },
     {
@@ -218,10 +215,12 @@ export default function CourierList() {
         />
       ),
       cell: ({ row }) => (
-          <span>{format(row.original.tpl_invoice_receiving_date, "dd-MMM-yyyy")}</span>
+        <span>
+          {row.original.tpl_invoice_receiving_date == "-" ? "-" : format(row.original.tpl_invoice_receiving_date, "yyyy-MMM-dd")}
+        </span>
       ),
     },
-     {
+    {
       accessorKey: "tpl_invoice_settle_date",
       header: ({ column, table }) => (
         <DatatableColumnHeader
@@ -231,26 +230,40 @@ export default function CourierList() {
         />
       ),
       cell: ({ row }) => (
-          <span>{format(row.original.tpl_invoice_settle_date, "dd-MMM-yyyy")}</span>
+        <span>
+          {row.original.tpl_invoice_settle_date == "-" ? "-" : format(row.original.tpl_invoice_settle_date, "yyyy-MMM-dd")}
+        </span>
       ),
     },
     {
       accessorKey: "statement_id",
       header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="Statement ID" table={table} />
+        <DatatableColumnHeader
+          column={column}
+          title="Statement ID"
+          table={table}
+        />
       ),
     },
     {
       accessorKey: "invoice_no",
       header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="Invoice No" table={table} />
+        <DatatableColumnHeader
+          column={column}
+          title="Invoice No"
+          table={table}
+        />
       ),
     },
     {
       accessorKey: "statement_date",
       header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="Statement Date" table={table} />
-      )
+        <DatatableColumnHeader
+          column={column}
+          title="Statement Date"
+          table={table}
+        />
+      ),
     },
     {
       accessorKey: "mark_payment_paid_date",
@@ -262,13 +275,19 @@ export default function CourierList() {
         />
       ),
       cell: ({ row }) => (
-          <span>{format(row.original.mark_payment_paid_date, "dd-MMM-yyyy")}</span>
+        <span>
+         {row.original.mark_payment_paid_date == "-" ? "-" : format(row.original.mark_payment_paid_date, "yyyy-MM-dd")}
+        </span>
       ),
     },
     {
       accessorKey: "ageing_days",
       header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="Aging Days" table={table} />
+        <DatatableColumnHeader
+          column={column}
+          title="Aging Days"
+          table={table}
+        />
       ),
     },
     // {
@@ -277,9 +296,7 @@ export default function CourierList() {
     //     <DatatableColumnHeader column={column} title="Sales Person" table={table} />
     //   ),
     // },
-    
   ];
-
   return (
     <div className="space-y-4 py-6">
       <div className="flex justify-between items-center">
