@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full p-4 ">
       <DataTableToolbar
         table={table}
         globalFilter={globalFilter}
@@ -79,9 +79,9 @@ export function DataTable<TData, TValue>({
       />
 
       {/* Table Area */}
-      <div className="w-full mb-4 ">
+      <div className="w-full mb-4">
         <div className="[&>div]:rounded-t-md">
-          <Table>
+          <Table className="shadow-sm">
             <TableHeader className="bg-[#f8fafc]">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} className="hover:bg-transparent">

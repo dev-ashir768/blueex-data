@@ -36,8 +36,12 @@ export interface ShipmentsAgeingResponse {
   payload: {
     details: ShipmentAgeingItem[];
     summary: {
-      total_amount: string;
-      total_count: string;
+      total_bookings: number;
+      total_cod: string;
+      total_delivered_amount: string;
+      delivered_orders: number;
+      returned_orders: number;
+      ageing_avg: number;
     };
   };
 }

@@ -42,6 +42,7 @@ import { Filter } from "lucide-react";
 import { format } from "date-fns";
 import { DateRangeSelect } from "@/components/ui/date-range-select";
 import DatatableColumnHeader from "../datatable/datatable-column-header";
+import CourierCards from "./courier-cards";
 // import { DateRange } from "react-day-picker";
 
 // Define schema
@@ -266,6 +267,8 @@ export default function CourierList() {
           </DialogContent>
         </Dialog>
       </div>
+
+      <CourierCards summary={data?.summary} loading={isPending} />
 
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden min-h-[400px]">
         {!formData ? (
