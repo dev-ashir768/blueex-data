@@ -19,7 +19,7 @@ interface DataTableColumnHeaderProps<
 > extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
   title: string;
-  table: Table<TData>;
+  table: Table<TData>; 
 }
 
 const DatatableColumnHeader = <TData, TValue>({
