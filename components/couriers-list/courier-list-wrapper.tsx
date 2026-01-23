@@ -39,10 +39,12 @@ import {
 } from "@/components/ui/dialog";
 import { Filter } from "lucide-react";
 
-import { format } from "date-fns";
+import { endOfMonth, format, startOfMonth } from "date-fns";
 import { DateRangeSelect } from "@/components/ui/date-range-select";
 import DatatableColumnHeader from "../datatable/datatable-column-header";
 import CourierCards from "./courier-cards";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 // import { DateRange } from "react-day-picker";
 
 // Define schema
@@ -65,6 +67,10 @@ export default function CourierList() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      dateRange: {
+        from: startOfMonth(new Date()),
+        to: endOfMonth(new Date()),
+      },
       status_type: "1",
     },
   });
@@ -93,20 +99,44 @@ export default function CourierList() {
   console.log(data);
 
   const columns: ColumnDef<ShipmentAgeingItem>[] = [
+
+    {
+      accessorKey: "id",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader
+          column={column}
+          title="Order ID"
+          table={table}
+        />
+      ),
+
+    },
+    
     {
       accessorKey: "acno",
       header: ({ column, table }) => (
         <DatatableColumnHeader
           column={column}
-          title="Account No"
+          title="ACNO"
           table={table}
         />
       ),
     },
     {
+      accessorKey: "order_ref",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader
+          column={column}
+          title="Order Ref"
+          table={table}
+        />
+      ),
+
+    },
+    {
       accessorKey: "consigment_no",
       header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="Cn No" table={table} />
+        <DatatableColumnHeader column={column} title="CN" table={table} />
       ),
     },
     {
@@ -128,14 +158,29 @@ export default function CourierList() {
     {
       accessorKey: "order_amount",
       header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="Amount" table={table} />
+        <DatatableColumnHeader column={column} title="COD" table={table} />
       ),
     },
     {
       accessorKey: "last_mile_status",
       header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="Status" table={table} />
+        <DatatableColumnHeader column={column} title="Last Mile Status" table={table} />
       ),
+      cell: ({ row }) => {
+        const status = row.getValue("last_mile_status") as string;
+        const isDelivered = status?.toLowerCase() === "delivered";
+        return (
+          <Badge
+            variant={isDelivered ? "default" : "destructive"}
+            className={cn(
+              "capitalize",
+              isDelivered && "bg-green-500 hover:bg-green-500",
+            )}
+          >
+            {status}
+          </Badge>
+        );
+      },
     },
     {
       accessorKey: "booking_date",
@@ -146,20 +191,97 @@ export default function CourierList() {
           table={table}
         />
       ),
-      cell: ({ row }) => {
-        return <span>{format(row.original.booking_date, "dd-MMM-yyyy")}</span>;
-      },
+      cell: ({ row }) => (
+          <span>{format(row.original.booking_date, "dd-MMM-yyyy")}</span>
+      ),
+    },
+    {
+      accessorKey: "last_mile_status_date",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader
+          column={column}
+          title="Last Mile Status Date"
+          table={table}
+        />
+      ),
+      cell: ({ row }) => (
+          <span>{format(row.original.last_mile_status_date, "dd-MMM-yyyy")}</span>
+      ),
+    },
+    {
+      accessorKey: "tpl_invoice_receiving_date",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader
+          column={column}
+          title="Receiving Date"
+          table={table}
+        />
+      ),
+      cell: ({ row }) => (
+          <span>{format(row.original.tpl_invoice_receiving_date, "dd-MMM-yyyy")}</span>
+      ),
+    },
+     {
+      accessorKey: "tpl_invoice_settle_date",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader
+          column={column}
+          title="3PL Invoice Date"
+          table={table}
+        />
+      ),
+      cell: ({ row }) => (
+          <span>{format(row.original.tpl_invoice_settle_date, "dd-MMM-yyyy")}</span>
+      ),
+    },
+    {
+      accessorKey: "statement_id",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader column={column} title="Statement ID" table={table} />
+      ),
+    },
+    {
+      accessorKey: "invoice_no",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader column={column} title="Invoice No" table={table} />
+      ),
+    },
+    {
+      accessorKey: "statement_date",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader column={column} title="Statement Date" table={table} />
+      )
+    },
+    {
+      accessorKey: "mark_payment_paid_date",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader
+          column={column}
+          title="Payment Paid Date"
+          table={table}
+        />
+      ),
+      cell: ({ row }) => (
+          <span>{format(row.original.mark_payment_paid_date, "dd-MMM-yyyy")}</span>
+      ),
     },
     {
       accessorKey: "ageing_days",
       header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="Aging" table={table} />
+        <DatatableColumnHeader column={column} title="Aging Days" table={table} />
       ),
     },
+    // {
+    //   accessorKey: "sales_person_name",
+    //   header: ({ column, table }) => (
+    //     <DatatableColumnHeader column={column} title="Sales Person" table={table} />
+    //   ),
+    // },
+    
   ];
 
   return (
-    <div className="space-y-4 p-6">
+    <div className="space-y-4 py-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-slate-800">Courier Shipments</h2>
         <Dialog open={open} onOpenChange={setOpen}>
@@ -179,7 +301,7 @@ export default function CourierList() {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-6"
+                  className="space-y-4"
                 >
                   <FormField
                     control={form.control}
@@ -207,7 +329,7 @@ export default function CourierList() {
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger className="w-full">
                               <SelectValue placeholder="Select a courier" />
                             </SelectTrigger>
                           </FormControl>
@@ -235,7 +357,7 @@ export default function CourierList() {
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger className="w-full">
                               <SelectValue placeholder="Select status type" />
                             </SelectTrigger>
                           </FormControl>

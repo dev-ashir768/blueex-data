@@ -25,6 +25,7 @@ export interface ShipmentAgeingItem {
   statement_date: string;
   tpl_invoice_receiving_date: string;
   tpl_invoice_settle_date: string;
+  mark_payment_paid_date: string;
   ageing_days: string;
   sales_person_id: string;
   sales_person_name: string;

@@ -106,7 +106,7 @@ export function DataTableToolbar<TData>({
                   className="h-9 gap-2 text-xs font-medium border shadow-sm"
                 >
                   <SlidersHorizontal className="h-4 w-4 opacity-70" />
-                  <span className="hidden sm:inline-block">View</span>
+                  <span className="hidden sm:inline-block">Column Visibility</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-[200px]">
