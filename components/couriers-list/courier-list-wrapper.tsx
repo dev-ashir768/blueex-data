@@ -283,7 +283,7 @@ export default function CourierList() {
   return (
     <div className="space-y-4 py-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-slate-800">Courier Shipments</h2>
+        <h2 className="text-2xl font-bold text-slate-800">Shipments Ageing</h2>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700 cursor-pointer">
@@ -292,7 +292,7 @@ export default function CourierList() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Filter Shipments</DialogTitle>
+              <DialogTitle>Apply Filter</DialogTitle>
               <DialogDescription>
                 Select date range and courier details to view shipments.
               </DialogDescription>
