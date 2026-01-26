@@ -107,12 +107,12 @@ export default function CourierCards({ summary, loading }: CourierCardsProps) {
     },
 
     {
-      title: "Payment By 3PL To Orio Ageing Avg (Days)",
+      title: "Shipment Delivered to Payment by 3PL (Avg. Days)",
       value: formatNumber(summary?.courier_ageing_avg),
       icon: Clock,
     },
     {
-      title: "Payment By Orio To BlueX Ageing Avg (Days)",
+      title: "Shipment Delivered to Payment by Orio (Avg. Days)",
       value: formatNumber(summary?.ageing_avg),
       icon: Clock,
     },
