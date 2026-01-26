@@ -54,7 +54,7 @@ export function CourierCard({
 
       <div className="relative z-10">
         <h3 className="text-slate-500 text-sm font-bold mb-1">{title}</h3>
-        <p className="text-3xl font-medium text-slate-900 tracking-tight">
+        <p className="text-3xl font-normal text-slate-900 tracking-tight">
           {value}
         </p>
       </div>
@@ -87,7 +87,7 @@ export default function CourierCards({ summary, loading }: CourierCardsProps) {
     },
     {
       title: "Total COD",
-      value: "Rs. " + formatNumber(summary?.total_cod),
+      value: "PKR. " + formatNumber(summary?.total_cod),
       icon: Banknote,
     },
     {
@@ -97,7 +97,7 @@ export default function CourierCards({ summary, loading }: CourierCardsProps) {
     },
     {
       title: "Delivered Amount",
-      value: "Rs. " + formatNumber(summary?.total_delivered_amount),
+      value: "PKR. " + formatNumber(summary?.total_delivered_amount),
       icon: CircleDollarSign,
     },
 
@@ -114,7 +114,7 @@ export default function CourierCards({ summary, loading }: CourierCardsProps) {
   ];
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 mb-6">
+    <div className="grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 mb-6">
       {cards.map((card, index) => (
         <CourierCard
           key={index}

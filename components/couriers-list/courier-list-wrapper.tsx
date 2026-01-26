@@ -158,6 +158,23 @@ export default function CourierList() {
       ),
     },
     {
+      accessorKey: "booking_date",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader
+          column={column}
+          title="Booking Date"
+          table={table}
+        />
+      ),
+      cell: ({ row }) => (
+        <span>
+          {row.original.booking_date == "-"
+            ? "-"
+            : format(row.original.booking_date, "dd-MMM-yyyy")}
+        </span>
+      ),
+    },
+    {
       accessorKey: "last_mile_status",
       header: ({ column, table }) => (
         <DatatableColumnHeader
@@ -196,23 +213,6 @@ export default function CourierList() {
       },
     },
     {
-      accessorKey: "booking_date",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Booking Date"
-          table={table}
-        />
-      ),
-      cell: ({ row }) => (
-        <span>
-          {row.original.booking_date == "-"
-            ? "-"
-            : format(row.original.booking_date, "dd-MMM-yyyy")}
-        </span>
-      ),
-    },
-    {
       accessorKey: "last_mile_status_date",
       header: ({ column, table }) => (
         <DatatableColumnHeader
@@ -234,7 +234,7 @@ export default function CourierList() {
       header: ({ column, table }) => (
         <DatatableColumnHeader
           column={column}
-          title="Invoice No"
+          title="3PL Invoice No"
           table={table}
         />
       ),
@@ -261,7 +261,7 @@ export default function CourierList() {
       header: ({ column, table }) => (
         <DatatableColumnHeader
           column={column}
-          title="Receiving Date"
+          title="Orio Receiving Date"
           table={table}
         />
       ),
@@ -279,17 +279,21 @@ export default function CourierList() {
       header: ({ column, table }) => (
         <DatatableColumnHeader
           column={column}
-          title="Statement ID"
+          title="Orio Invoice No"
           table={table}
         />
       ),
+      cell: ({ row }) => {
+        const value = row.getValue("statement_id");
+        return `#${value}`;
+      },
     },
     {
       accessorKey: "statement_date",
       header: ({ column, table }) => (
         <DatatableColumnHeader
           column={column}
-          title="Statement Date"
+          title="Orio Invoice Date"
           table={table}
         />
       ),
@@ -306,7 +310,7 @@ export default function CourierList() {
       header: ({ column, table }) => (
         <DatatableColumnHeader
           column={column}
-          title="Payment Paid Date"
+          title="3PL Delivered To Payment By Orio"
           table={table}
         />
       ),
@@ -323,7 +327,7 @@ export default function CourierList() {
       header: ({ column, table }) => (
         <DatatableColumnHeader
           column={column}
-          title="Aging Days"
+          title="Ageing Days"
           table={table}
         />
       ),
@@ -352,7 +356,7 @@ export default function CourierList() {
                 Select date range and courier details to view shipments.
               </DialogDescription>
             </DialogHeader>
-            <div className="py-6">
+            <div className="py-2">
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
