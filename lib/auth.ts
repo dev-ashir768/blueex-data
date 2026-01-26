@@ -7,13 +7,14 @@ export const HARDCODED_CREDENTIALS = {
   accessToken: "dummy-access-token-12345",
 };
 
+
 export const login = (username: string, password: string): boolean => {
   if (
     username === HARDCODED_CREDENTIALS.username &&
     password === HARDCODED_CREDENTIALS.password
   ) {
     Cookies.set(AUTH_COOKIE_NAME, HARDCODED_CREDENTIALS.accessToken, {
-      expires: 1,
+      expires: 8 / 24,
     });
     return true;
   }

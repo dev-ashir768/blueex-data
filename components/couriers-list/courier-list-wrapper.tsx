@@ -39,7 +39,7 @@ import {
 } from "@/components/ui/dialog";
 import { Filter } from "lucide-react";
 
-import { endOfMonth, format, startOfMonth } from "date-fns";
+import { endOfDay, format, startOfDay, subMonths } from "date-fns";
 import { DateRangeSelect } from "@/components/ui/date-range-select";
 import DatatableColumnHeader from "../datatable/datatable-column-header";
 import CourierCards from "./courier-cards";
@@ -59,6 +59,8 @@ const formSchema = z.object({
   }),
 });
 
+const today = new Date();
+
 export default function CourierList() {
   const [formData, setFormData] = useState<ShipmentsAgeingPayload | null>(null);
   const [open, setOpen] = useState(false);
@@ -68,8 +70,8 @@ export default function CourierList() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       dateRange: {
-        from: startOfMonth(new Date()),
-        to: endOfMonth(new Date()),
+        from: startOfDay(subMonths(today, 2)),
+        to: endOfDay(today),
       },
       courier_id: "37",
       status_type: "1",
@@ -82,6 +84,10 @@ export default function CourierList() {
       return response.payload;
     },
   });
+
+  // if(isError){
+  //   return <div className="text-center p-4">No data found.</div>;
+  // }
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -162,13 +168,26 @@ export default function CourierList() {
       ),
       cell: ({ row }) => {
         const status = row.getValue("last_mile_status") as string;
-        const isDelivered = status?.toLowerCase() === "delivered";
+        const normalizedStatus = status?.toLowerCase();
+
+        const isDelivered = normalizedStatus === "delivered";
+        const isReturnToShipper = normalizedStatus === "return to shipper";
+        const isOther = !isDelivered && !isReturnToShipper;
+
         return (
           <Badge
-            variant={isDelivered ? "default" : "destructive"}
+            variant={
+              isDelivered
+                ? "default"
+                : isReturnToShipper
+                  ? "destructive"
+                  : "secondary"
+            }
             className={cn(
               "capitalize",
               isDelivered && "bg-green-500 hover:bg-green-500",
+              isReturnToShipper && "bg-red-500 hover:bg-red-500",
+              isOther && "bg-yellow-400 hover:bg-yellow-400 text-white",
             )}
           >
             {status}
@@ -187,7 +206,10 @@ export default function CourierList() {
       ),
       cell: ({ row }) => (
         <span>
-          {row.original.booking_date == "-" ? "-" : format(row.original.booking_date, "yyyy-MMM-dd")}</span>
+          {row.original.booking_date == "-"
+            ? "-"
+            : format(row.original.booking_date, "dd-MMM-yyyy")}
+        </span>
       ),
     },
     {
@@ -201,48 +223,10 @@ export default function CourierList() {
       ),
       cell: ({ row }) => (
         <span>
-          {row.original.last_mile_status_date == "-" ? "-" : format(row.original.last_mile_status_date, "yyyy-MMM-dd")}
-          </span>
-      ),
-    },
-    {
-      accessorKey: "tpl_invoice_receiving_date",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Receiving Date"
-          table={table}
-        />
-      ),
-      cell: ({ row }) => (
-        <span>
-          {row.original.tpl_invoice_receiving_date == "-" ? "-" : format(row.original.tpl_invoice_receiving_date, "yyyy-MMM-dd")}
+          {row.original.last_mile_status_date == "-"
+            ? "-"
+            : format(row.original.last_mile_status_date, "dd-MMM-yyyy")}
         </span>
-      ),
-    },
-    {
-      accessorKey: "tpl_invoice_settle_date",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="3PL Invoice Date"
-          table={table}
-        />
-      ),
-      cell: ({ row }) => (
-        <span>
-          {row.original.tpl_invoice_settle_date == "-" ? "-" : format(row.original.tpl_invoice_settle_date, "yyyy-MMM-dd")}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "statement_id",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Statement ID"
-          table={table}
-        />
       ),
     },
     {
@@ -256,6 +240,51 @@ export default function CourierList() {
       ),
     },
     {
+      accessorKey: "tpl_invoice_settle_date",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader
+          column={column}
+          title="3PL Invoice Date"
+          table={table}
+        />
+      ),
+      cell: ({ row }) => (
+        <span>
+          {row.original.tpl_invoice_settle_date == "-"
+            ? "-"
+            : format(row.original.tpl_invoice_settle_date, "dd-MMM-yyyy")}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "tpl_invoice_receiving_date",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader
+          column={column}
+          title="Receiving Date"
+          table={table}
+        />
+      ),
+      cell: ({ row }) => (
+        <span>
+          {row.original.tpl_invoice_receiving_date == "-"
+            ? "-"
+            : format(row.original.tpl_invoice_receiving_date, "dd-MMM-yyyy")}
+        </span>
+      ),
+    },
+
+    {
+      accessorKey: "statement_id",
+      header: ({ column, table }) => (
+        <DatatableColumnHeader
+          column={column}
+          title="Statement ID"
+          table={table}
+        />
+      ),
+    },
+    {
       accessorKey: "statement_date",
       header: ({ column, table }) => (
         <DatatableColumnHeader
@@ -263,6 +292,13 @@ export default function CourierList() {
           title="Statement Date"
           table={table}
         />
+      ),
+      cell: ({ row }) => (
+        <span>
+          {row.original.statement_date == "-"
+            ? "-"
+            : format(row.original.statement_date, "dd-MMM-yyyy")}
+        </span>
       ),
     },
     {
@@ -276,7 +312,9 @@ export default function CourierList() {
       ),
       cell: ({ row }) => (
         <span>
-         {row.original.mark_payment_paid_date == "-" ? "-" : format(row.original.mark_payment_paid_date, "yyyy-MM-dd")}
+          {row.original.mark_payment_paid_date == "-"
+            ? "-"
+            : format(row.original.mark_payment_paid_date, "dd-MMM-yyyy")}
         </span>
       ),
     },
@@ -424,8 +462,8 @@ export default function CourierList() {
             <p className="mt-4 text-slate-500">Loading data...</p>
           </div>
         ) : isError ? (
-          <div className="flex flex-col items-center justify-center h-[400px] text-red-500">
-            <p>Error loading data. Please try again.</p>
+          <div className="flex flex-col items-center justify-center p-4 min-h-[400px] text-2xl">
+            <p>No data found</p>
           </div>
         ) : (
           <CourierListDatatable data={data?.details || []} columns={columns} />

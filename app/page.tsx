@@ -65,7 +65,7 @@ export default function Home() {
               Real-time performance metrics and data insights from Orio API.
             </p>
           </div>
-          <Button onClick={() => router.push("/courier-list")} variant="default" className="bg-blue-600 hover:bg-blue-600 cursor-pointer">Shipments Ageing</Button>
+          <Button onClick={() => router.push("/shipments-ageing")} variant="default" className="bg-blue-600 hover:bg-blue-600 cursor-pointer">Shipments Ageing</Button>
         </div>
 
         {/* KPI Cards Grid */}

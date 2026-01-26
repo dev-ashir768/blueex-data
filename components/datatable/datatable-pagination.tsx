@@ -141,7 +141,7 @@ export function DataTablePagination<TData>({
                   className={cn(
                     'h-8 w-8 text-xs p-0 font-normal transition-colors',
                     pageIndex === page
-                      ? 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90'
+                      ? 'bg-blue-600 text-primary-foreground shadow-sm hover:bg-blue-600'
                       : 'text-muted-foreground hover:bg-accent hover:text-foreground'
                   )}
                   onClick={() => table.setPageIndex(page as number)}

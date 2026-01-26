@@ -16,7 +16,21 @@ interface CourierCardProps {
   loading?: boolean;
 }
 
-export function CourierCard({ title, value, icon: Icon, loading }: CourierCardProps) {
+const formatNumber = (value: string | number | undefined) => {
+  if (value === undefined || value === null || value === "") return "0";
+  const num =
+    typeof value === "string" ? parseFloat(value.replace(/,/g, "")) : value;
+  return isNaN(num) ? "0" : num.toLocaleString();
+};
+
+
+
+export function CourierCard({
+  title,
+  value,
+  icon: Icon,
+  loading,
+}: CourierCardProps) {
   if (loading) {
     return (
       <div className="bg-white border border-slate-200 rounded-3xl p-4 relative overflow-hidden animate-pulse shadow-sm">
@@ -32,8 +46,6 @@ export function CourierCard({ title, value, icon: Icon, loading }: CourierCardPr
 
   return (
     <div className="group bg-white border border-slate-200 hover:border-blue-300 rounded-3xl p-4 relative overflow-hidden transition-all shadow-sm">
-     
-
       <div className="flex justify-between items-start mb-4 relative z-10">
         <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
           <Icon size={24} />
@@ -70,32 +82,33 @@ export default function CourierCards({ summary, loading }: CourierCardsProps) {
   const cards = [
     {
       title: "Total Bookings",
-      value: summary?.total_bookings ?? 0,
+      value: formatNumber(summary?.total_bookings),
       icon: Package,
     },
     {
       title: "Total COD",
-      value: summary?.total_cod ?? "0",
+      value: "Rs. " + formatNumber(summary?.total_cod),
       icon: Banknote,
     },
     {
-      title: "Delivered Amount",
-      value: summary?.total_delivered_amount ?? "0",
-      icon: CircleDollarSign,
-    },
-    {
       title: "Delivered Orders",
-      value: summary?.delivered_orders ?? 0,
+      value: formatNumber(summary?.delivered_orders),
       icon: Truck,
     },
     {
+      title: "Delivered Amount",
+      value: "Rs. " + formatNumber(summary?.total_delivered_amount),
+      icon: CircleDollarSign,
+    },
+
+    {
       title: "Returned Orders",
-      value: summary?.returned_orders ?? 0,
+      value: formatNumber(summary?.returned_orders),
       icon: RotateCcw,
     },
     {
-      title: "Avg Ageing",
-      value: summary ? `${summary.ageing_avg}` : "0",
+      title: "Avg Ageing (Days)",
+      value: formatNumber(summary?.ageing_avg),
       icon: Clock,
     },
   ];
