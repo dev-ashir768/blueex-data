@@ -7,7 +7,6 @@ import {
   startOfDay,
   endOfDay,
   subMonths,
-  subYears,
   startOfMonth,
   endOfMonth,
   startOfYear,
@@ -79,7 +78,7 @@ export function DateRangeSelect({
         break;
       case "last_3_months":
         newDate = {
-          from: startOfDay(subMonths(today, 3)),
+          from: startOfDay(subMonths(today, 2)),
           to: endOfDay(today),
         };
         break;
@@ -96,17 +95,17 @@ export function DateRangeSelect({
           to: endOfYear(today),
         };
         break;
-      case "last_year":
-        const lastYear = subYears(today, 1);
-        newDate = {
-          from: startOfYear(lastYear),
-          to: endOfYear(lastYear),
-        };
-        break;
-      case "custom":
-        setOpen(false); // Close popover
-        setShowCalendar(true); // Open dialog
-        return;
+      // case "last_year":
+      //   const lastYear = subYears(today, 1);
+      //   newDate = {
+      //     from: startOfYear(lastYear),
+      //     to: endOfYear(lastYear),
+      //   };
+      //   break;
+      // case "custom":
+      //   setOpen(false); // Close popover
+      //   setShowCalendar(true); // Open dialog
+      //   return;
     }
 
     if (newDate) {
@@ -193,7 +192,7 @@ export function DateRangeSelect({
             >
               This Year
             </Button>
-            <Button
+            {/* <Button
               variant="ghost"
               className="justify-start font-normal"
               onClick={() => handlePresetSelect("last_year")}
@@ -206,7 +205,7 @@ export function DateRangeSelect({
               onClick={() => handlePresetSelect("custom")}
             >
               Custom Range
-            </Button>
+            </Button> */}
           </div>
         </PopoverContent>
       </Popover>

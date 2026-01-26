@@ -41,7 +41,6 @@ import { Filter } from "lucide-react";
 
 import { endOfDay, format, startOfDay, subMonths } from "date-fns";
 import { DateRangeSelect } from "@/components/ui/date-range-select";
-import DatatableColumnHeader from "../datatable/datatable-column-header";
 import CourierCards from "./courier-cards";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -108,64 +107,51 @@ export default function CourierList() {
   const columns: ColumnDef<ShipmentAgeingItem>[] = [
     {
       accessorKey: "id",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="Order ID" table={table} />
-      ),
+      header: "Order ID",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
     },
-
     {
       accessorKey: "acno",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="ACNO" table={table} />
-      ),
+      header: "ACNO",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "order_ref",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Order Ref"
-          table={table}
-        />
-      ),
+      header: "Order Ref",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "consigment_no",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="CN" table={table} />
-      ),
+      header: "CN",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "courier_name",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="Courier" table={table} />
-      ),
+      header: "Courier",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "payment_type",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Payment Type"
-          table={table}
-        />
-      ),
+      header: "Payment Type",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "order_amount",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader column={column} title="COD" table={table} />
-      ),
+      header: "COD",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "booking_date",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Booking Date"
-          table={table}
-        />
-      ),
+      header: "Booking Date",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
           {row.original.booking_date == "-"
@@ -176,13 +162,9 @@ export default function CourierList() {
     },
     {
       accessorKey: "last_mile_status",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Last Mile Status"
-          table={table}
-        />
-      ),
+      header: "Last Mile Status",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
       cell: ({ row }) => {
         const status = row.getValue("last_mile_status") as string;
         const normalizedStatus = status?.toLowerCase();
@@ -214,13 +196,9 @@ export default function CourierList() {
     },
     {
       accessorKey: "last_mile_status_date",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Last Mile Status Date"
-          table={table}
-        />
-      ),
+      header: "Last Mile Status Date",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
           {row.original.last_mile_status_date == "-"
@@ -231,23 +209,15 @@ export default function CourierList() {
     },
     {
       accessorKey: "invoice_no",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="3PL Invoice No"
-          table={table}
-        />
-      ),
+      header: "3PL Invoice No",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "tpl_invoice_settle_date",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="3PL Invoice Date"
-          table={table}
-        />
-      ),
+      header: "3PL Invoice Date",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
           {row.original.tpl_invoice_settle_date == "-"
@@ -258,13 +228,9 @@ export default function CourierList() {
     },
     {
       accessorKey: "tpl_invoice_receiving_date",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Orio Receiving Date"
-          table={table}
-        />
-      ),
+      header: "Orio Receiving Date",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
           {row.original.tpl_invoice_receiving_date == "-"
@@ -276,13 +242,9 @@ export default function CourierList() {
 
     {
       accessorKey: "statement_id",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Orio Invoice No"
-          table={table}
-        />
-      ),
+      header: "Orio Invoice No",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
       cell: ({ row }) => {
         const value = row.getValue("statement_id");
         return `#${value}`;
@@ -290,13 +252,9 @@ export default function CourierList() {
     },
     {
       accessorKey: "statement_date",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Orio Invoice Date"
-          table={table}
-        />
-      ),
+      header: "Orio Invoice Date",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
           {row.original.statement_date == "-"
@@ -307,13 +265,9 @@ export default function CourierList() {
     },
     {
       accessorKey: "mark_payment_paid_date",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="3PL Delivered To Payment By Orio"
-          table={table}
-        />
-      ),
+      header: "3PL Delivered To Payment By Orio",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
           {row.original.mark_payment_paid_date == "-"
@@ -324,13 +278,9 @@ export default function CourierList() {
     },
     {
       accessorKey: "ageing_days",
-      header: ({ column, table }) => (
-        <DatatableColumnHeader
-          column={column}
-          title="Ageing Days"
-          table={table}
-        />
-      ),
+      header: "Ageing Days",
+      enableColumnFilter: false,
+      filterFn: "arrIncludesSome",
     },
     // {
     //   accessorKey: "sales_person_name",

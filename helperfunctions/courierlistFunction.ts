@@ -43,6 +43,7 @@ export interface ShipmentsAgeingResponse {
       delivered_orders: number;
       returned_orders: number;
       ageing_avg: number;
+      courier_ageing_avg: number;
     };
   };
 }

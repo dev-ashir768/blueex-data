@@ -14,14 +14,7 @@ const CourierListDatatable: FC<CourierListDatatableProps> = ({
 }) => {
   return (
     <>
-      <DataTable
-        title="Courier List"
-        columns={columns}
-        data={data}
-        enableColumnVisibility={true}
-        enableExport={true}
-        enableGlobalFilter={true}
-      />
+      <DataTable columns={columns} data={data} />
     </>
   );
 };

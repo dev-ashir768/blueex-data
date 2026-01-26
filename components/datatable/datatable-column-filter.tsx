@@ -48,7 +48,7 @@ export function ColumnFilter<TData, TValue>({
         <Button
           variant="ghost"
           size="sm"
-          className={`h-8 w-8 p-0 relative ${
+          className={`h-8 w-8 p-0 relative cursor-pointer ${
             filterCount > 0 ? 'bg-primary/10 text-primary' : ''
           }`}
         >

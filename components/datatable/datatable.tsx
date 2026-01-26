@@ -24,19 +24,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-// import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
 import { DataTableToolbar } from "./datatable-toolbar";
-// import { ColumnFilter } from "./datatable-column-filter";
+import { ColumnFilter } from "./datatable-column-filter";
 import { DataTablePagination } from "./datatable-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  title?: string;
-  enableColumnVisibility?: boolean;
-   enableExport?: boolean;
-   enableGlobalFilter?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -62,16 +58,11 @@ export function DataTable<TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onGlobalFilterChange: setGlobalFilter,
-    filterFns: {
-      multiSelect: (row, id, value) => {
-        return value.includes(String(row.getValue(id)));
-      },
-    },
     state: { sorting, columnFilters, columnVisibility, globalFilter },
   });
 
   return (
-    <div className="w-full p-4 ">
+    <div className="w-full p-4">
       <DataTableToolbar
         table={table}
         globalFilter={globalFilter}
@@ -81,7 +72,7 @@ export function DataTable<TData, TValue>({
       {/* Table Area */}
       <div className="w-full mb-4">
         <div className="[&>div]:rounded-t-md">
-          <Table className="shadow-sm">
+          <Table>
             <TableHeader className="bg-[#f8fafc]">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} className="hover:bg-transparent">
@@ -98,16 +89,16 @@ export function DataTable<TData, TValue>({
                               header.column.columnDef.header,
                               header.getContext(),
                             )}
-                            {/* <ArrowUpDown className="ml-2 h-3 w-3 opacity-50" /> */}
+                            <ArrowUpDown className="ml-2 h-3 w-3 opacity-50" />
                           </div>
 
                           {/* Filter Component (Only if filterable) */}
-                          {/* {header.column.getCanFilter() && (
+                          {header.column.getCanFilter() && (
                             <ColumnFilter
                               column={header.column}
                               table={table}
                             />
-                          )} */}
+                          )}
                         </div>
                       </TableHead>
                     );

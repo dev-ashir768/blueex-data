@@ -23,8 +23,6 @@ const formatNumber = (value: string | number | undefined) => {
   return isNaN(num) ? "0" : num.toLocaleString();
 };
 
-
-
 export function CourierCard({
   title,
   value,
@@ -71,6 +69,7 @@ export interface CourierSummary {
   delivered_orders: number;
   returned_orders: number;
   ageing_avg: number;
+  courier_ageing_avg: number;
 }
 
 interface CourierCardsProps {
@@ -106,8 +105,14 @@ export default function CourierCards({ summary, loading }: CourierCardsProps) {
       value: formatNumber(summary?.returned_orders),
       icon: RotateCcw,
     },
+
     {
-      title: "Avg Ageing (Days)",
+      title: "Payment By 3PL To Orio Ageing Avg (Days)",
+      value: formatNumber(summary?.courier_ageing_avg),
+      icon: Clock,
+    },
+    {
+      title: "Payment By Orio To BlueX Ageing Avg (Days)",
       value: formatNumber(summary?.ageing_avg),
       icon: Clock,
     },
