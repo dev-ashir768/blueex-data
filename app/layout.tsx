@@ -13,10 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Data",
+  title: "Orio",
 };
 
 import TanstackProvider from "@/providers/TanstackProvider";
+import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function RootLayout({
   children,
@@ -28,7 +30,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <TanstackProvider>{children}</TanstackProvider>
+        <TanstackProvider>
+          <NextTopLoader
+            color="#0074fc"
+            showSpinner={false}
+            speed={200}
+            easing="ease"
+          />
+          <Toaster position="bottom-right" richColors />
+          {children}
+        </TanstackProvider>
       </body>
     </html>
   );

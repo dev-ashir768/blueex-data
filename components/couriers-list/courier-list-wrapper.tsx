@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
   getShipmentsAgeing,
   ShipmentAgeingItem,
@@ -39,57 +38,105 @@ import {
 } from "@/components/ui/dialog";
 import { Filter } from "lucide-react";
 
-import { endOfDay, format, startOfDay, subMonths } from "date-fns";
+import { startOfDay, endOfDay, format, subMonths } from "date-fns";
 import { DateRangeSelect } from "@/components/ui/date-range-select";
 import CourierCards from "./courier-cards";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-// import { DateRange } from "react-day-picker";
+import { formSchema, FormValueType } from "@/schemas/shipmentSchemas";
 
-// Define schema
-const formSchema = z.object({
-  dateRange: z.object({
-    from: z.date(),
-    to: z.date(),
-  }),
-  courier_id: z.string().min(1, "Courier is required"),
-  status_type: z.enum(["1", "2"], {
-    message: "Status type is required",
-  }),
-});
 
 const today = new Date();
 
-export default function CourierList() {
-  const [formData, setFormData] = useState<ShipmentsAgeingPayload | null>(null);
-  const [open, setOpen] = useState(false);
+const DEFAULT_FILTERS = {
+  dateRange: {
+    from: startOfDay(subMonths(today, 2)),
+    to: endOfDay(today),
+  },
+  courier_id: "37",
+  status_type: "1" as const,
+};
 
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
+export default function CourierList() {
+  const [open, setOpen] = useState(false);
+  // const cacheRef = useRef<Map<string, any>>(new Map());
+
+  const form = useForm<FormValueType>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      dateRange: {
-        from: startOfDay(subMonths(today, 2)),
-        to: endOfDay(today),
-      },
-      courier_id: "37",
-      status_type: "1",
-    },
+    defaultValues: DEFAULT_FILTERS,
   });
 
-  const { data, isPending, isError, mutate } = useMutation({
-    mutationFn: async (payload: ShipmentsAgeingPayload) => {
-      const response = await getShipmentsAgeing(payload);
+  // const { data, isPending, isError, mutate, reset } = useMutation({
+  //   mutationKey: ["shipments-ageing", form.getValues()],
+  //   mutationFn: async (payload: ShipmentsAgeingPayload) => {
+  //     const response = await getShipmentsAgeing(payload);
+  //     return response.payload;
+  //   },
+  // });
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["shipments-ageing", form.getValues()],
+    queryFn: async () => {
+      const response = await getShipmentsAgeing({
+        start_date: format(form.getValues().dateRange.from, "yyyy-MM-dd"),
+        end_date: format(form.getValues().dateRange.to, "yyyy-MM-dd"),
+        courier_id: parseInt(form.getValues().courier_id),
+        customers_acno: ["OR-01362", "OR-01914", "OR-01886"],
+        status_type: form.getValues().status_type,
+      });
       return response.payload;
     },
+    gcTime: 10 * 60 * 1000,
+    staleTime: 10 * 60 * 1000,
   });
 
-  // if(isError){
-  //   return <div className="text-center p-4">No data found.</div>;
-  // }
+  const renderContent = () => {
+    if (!data) {
+      <div className="flex flex-col items-center justify-center h-[400px] text-slate-500">
+        <Filter className="w-12 h-12 mb-4 opacity-20" />
+        <p className="text-lg font-medium">No filters applied</p>
+        <p className="text-sm">Please apply filters to view shipment data.</p>
+      </div>;
+    }
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+    if (isLoading) {
+      return (
+        <div className="flex flex-col items-center justify-center h-[400px]">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <p className="mt-4 text-slate-500">Loading data...</p>
+        </div>
+      );
+    }
+
+    if (isError) {
+      return (
+        <div className="flex flex-col items-center justify-center p-4 min-h-[400px] text-2xl">
+          <p>No data found</p>
+        </div>
+      );
+    }
+
+    return (
+      <CourierListDatatable data={data?.details || []} columns={columns} />
+    );
+  };
+
+  // const { data, isPending, isError, mutate, reset } = useMutation({
+  //   mutationKey: ["shipments-ageing", form.getValues()],
+  //   mutationFn: async (payload: ShipmentsAgeingPayload) => {
+  //     const cacheKey = JSON.stringify(payload);
+
+  //     if (cacheRef.current.has(cacheKey)) {
+  //       return cacheRef.current.get(cacheKey);
+  //     }
+
+  //     const response = await getShipmentsAgeing(payload);
+  //     cacheRef.current.set(cacheKey, response.payload);
+  //     return response.payload;
+  //   },
+  // });
+
+  function onSubmit(values: FormValueType) {
     const payload: ShipmentsAgeingPayload = {
       start_date: format(values.dateRange.from, "yyyy-MM-dd"),
       end_date: format(values.dateRange.to, "yyyy-MM-dd"),
@@ -97,12 +144,9 @@ export default function CourierList() {
       customers_acno: ["OR-01362", "OR-01914", "OR-01886"],
       status_type: values.status_type,
     };
-    setFormData(payload);
-    mutate(payload);
-    setOpen(false); // Close sheet on submit
+    console.log(payload);
+    setOpen(false);
   }
-
-  console.log(data);
 
   const columns: ColumnDef<ShipmentAgeingItem>[] = [
     {
@@ -124,14 +168,14 @@ export default function CourierList() {
       filterFn: "arrIncludesSome",
     },
     {
-      accessorKey: "consigment_no",
-      header: "CN",
+      accessorKey: "courier_name",
+      header: "Courier",
       enableColumnFilter: false,
       filterFn: "arrIncludesSome",
     },
     {
-      accessorKey: "courier_name",
-      header: "Courier",
+      accessorKey: "consigment_no",
+      header: "CN",
       enableColumnFilter: false,
       filterFn: "arrIncludesSome",
     },
@@ -289,6 +333,7 @@ export default function CourierList() {
     //   ),
     // },
   ];
+
   return (
     <div className="space-y-4 py-6">
       <div className="flex justify-between items-center">
@@ -386,8 +431,26 @@ export default function CourierList() {
 
                   <DialogFooter>
                     <Button
+                      className="cursor-pointer"
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        form.reset({
+                          dateRange: {
+                            from: undefined,
+                            to: undefined,
+                          },
+                          courier_id: "37",
+                          status_type: "1",
+                        });
+                        setOpen(true);
+                      }}
+                    >
+                      Reset Filters
+                    </Button>
+                    <Button
                       type="submit"
-                      className="w-full bg-blue-600 hover:bg-blue-700 cursor-pointer"
+                      className="bg-blue-600 hover:bg-blue-700 cursor-pointer"
                     >
                       Apply Filters
                     </Button>
@@ -399,29 +462,10 @@ export default function CourierList() {
         </Dialog>
       </div>
 
-      <CourierCards summary={data?.summary} loading={isPending} />
+      <CourierCards summary={data?.summary} loading={isLoading} />
 
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden min-h-[400px]">
-        {!formData ? (
-          <div className="flex flex-col items-center justify-center h-[400px] text-slate-500">
-            <Filter className="w-12 h-12 mb-4 opacity-20" />
-            <p className="text-lg font-medium">No filters applied</p>
-            <p className="text-sm">
-              Please apply filters to view shipment data.
-            </p>
-          </div>
-        ) : isPending ? (
-          <div className="flex flex-col items-center justify-center h-[400px]">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            <p className="mt-4 text-slate-500">Loading data...</p>
-          </div>
-        ) : isError ? (
-          <div className="flex flex-col items-center justify-center p-4 min-h-[400px] text-2xl">
-            <p>No data found</p>
-          </div>
-        ) : (
-          <CourierListDatatable data={data?.details || []} columns={columns} />
-        )}
+        {renderContent()}
       </div>
     </div>
   );

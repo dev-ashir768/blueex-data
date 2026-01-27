@@ -2,7 +2,8 @@
 
 import CourierList from "@/components/couriers-list/courier-list-wrapper";
 import { logout } from "@/lib/auth";
-import { BarChart3, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
+import Image from "next/image";
 
 export default function page() {
   return (
@@ -11,11 +12,13 @@ export default function page() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
-                <BarChart3 className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold tracking-tight text-slate-900">
-                DataPortal
+              <span>
+                <Image
+                  src="/orio-logo.svg"
+                  alt="Orio Logo"
+                  width={100}
+                  height={100}
+                />
               </span>
             </div>
 
@@ -29,15 +32,11 @@ export default function page() {
               </button>
             </div>
           </div>
-          
         </div>
       </nav>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <CourierList />
       </div>
-      
-        
-      
     </>
   );
 }

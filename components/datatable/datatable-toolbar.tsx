@@ -65,7 +65,7 @@ export function DataTableToolbar<TData>({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-9 ml-auto sm:ml-0 gap-2 text-xs font-medium  shadow-sm"
+                  className="h-9 ml-auto sm:ml-0 gap-2 text-xs font-medium cursor-pointer shadow-sm"
                 >
                   <Download className="h-4 w-4 opacity-70" />
                   <span className="hidden sm:inline-block">Export</span>
@@ -103,7 +103,7 @@ export function DataTableToolbar<TData>({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-9 gap-2 text-xs font-medium shadow-sm"
+                  className="h-9 gap-2 text-xs font-medium shadow-sm cursor-pointer"
                 >
                   <SlidersHorizontal className="h-4 w-4 opacity-70" />
                   <span className="hidden sm:inline-block">Column Visibility</span>
