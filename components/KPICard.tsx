@@ -39,7 +39,7 @@ export default function KPICard({
 
       <div className="relative z-10">
         <h3 className="text-slate-500 text-sm font-bold mb-1">{title}</h3>
-        <p className="text-3xl font-black text-slate-900 tracking-tight">
+        <p className="text-3xl font-medium text-slate-900 tracking-tight">
           {value}
         </p>
       </div>

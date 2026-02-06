@@ -45,7 +45,6 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { formSchema, FormValueType } from "@/schemas/shipmentSchemas";
 
-
 const today = new Date();
 
 const DEFAULT_FILTERS = {
@@ -337,7 +336,7 @@ export default function CourierList() {
   return (
     <div className="space-y-4 py-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-slate-800">Shipments Ageing</h2>
+        <h2 className="text-2xl font-bold text-slate-800">Shipments Aging</h2>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700 cursor-pointer">

@@ -13,6 +13,7 @@ import { logout } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   const { totals, isLoading } = useDashboardData();
@@ -35,14 +36,16 @@ export default function Home() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-3">
               <span>
-                <Image src="/orio-logo.svg" alt="Orio Logo" width={100} height={100} />
+                <Link href="/">
+                  <Image src="/orio-logo.svg" alt="Orio Logo" width={100} height={100} />
+                </Link>
               </span>
             </div>
 
             <div className="flex items-center gap-4">
               <button
                 onClick={logout}
-                className="flex items-center gap-2 px-5 py-2.5 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-2xl text-sm font-semibold transition-all text-slate-700 hover:text-rose-600"
+                className="flex items-center cursor-pointer gap-2 px-5 py-2.5 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-2xl text-sm font-semibold transition-all text-slate-700 hover:text-rose-600"
               >
                 <LogOut className="w-4 h-4" />
                 <span>Logout</span>
@@ -62,31 +65,35 @@ export default function Home() {
               Real-time performance metrics and data insights from Orio API.
             </p>
           </div>
-          <Button onClick={() => router.push("/shipments-ageing")} variant="default" className="bg-blue-600 hover:bg-blue-600 cursor-pointer">Shipments Ageing</Button>
+          <Button onClick={() => router.push("/shipments-aging")} variant="default" className="bg-blue-600 hover:bg-blue-600 cursor-pointer">Shipments Aging</Button>
         </div>
 
         {/* KPI Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <KPICard
-            title="Total Arrival COD"
+            // title="Total Arrival COD"
+            title="Total COD Booked"
             value={formatCurrency(totals.total_arrival_cod)}
             icon={Truck}
             loading={isLoading}
           />
           <KPICard
-            title="Arrival Delivered COD"
+            // title="Arrival Delivered COD"
+            title="Total COD Delivered"
             value={formatCurrency(totals.arrival_dv_cod)}
             icon={PackageCheck}
             loading={isLoading}
           />
           <KPICard
-            title="Arrival Not Delivered COD"
+            // title="Arrival Not Delivered COD"
+            title="Total In Transit COD"
             value={formatCurrency(totals.arrival_not_dv_cod)}
             icon={Timer}
             loading={isLoading}
           />
           <KPICard
-            title="Arrival Payable COD"
+            // title="Arrival Payable COD"
+            title="COD Payable"
             value={formatCurrency(totals.arrival_payable_cod)}
             icon={Banknote}
             loading={isLoading}
