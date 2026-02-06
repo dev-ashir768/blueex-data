@@ -9,7 +9,7 @@ import {
 
 import { LucideIcon } from "lucide-react";
 
-interface CourierCardProps {
+interface ShipmentsCardProps {
   title: string;
   value: string | number;
   icon: LucideIcon;
@@ -23,12 +23,12 @@ const formatNumber = (value: string | number | undefined) => {
   return isNaN(num) ? "0" : num.toLocaleString();
 };
 
-export function CourierCard({
+export function ShipmentsCard({
   title,
   value,
   icon: Icon,
   loading,
-}: CourierCardProps) {
+}: ShipmentsCardProps) {
   if (loading) {
     return (
       <div className="bg-white border border-slate-200 rounded-3xl p-4 relative overflow-hidden animate-pulse shadow-sm">
@@ -63,30 +63,26 @@ export function CourierCard({
 }
 
 export interface CourierSummary {
+  
   total_bookings: number;
   total_cod: string;
-  total_delivered_amount: string;
-  delivered_orders: number;
-  returned_orders: number;
+  total_inprocess: number;
+  total_inprocess_cod: string;
+  total_delivered_orders: number;
+  total_delivered_cod: string;
+  total_returned_orders: number;
   ageing_avg: number;
   courier_ageing_avg: number;
-  // total_bookings: number;
-  // total_cod: string;
-  // total_inprocess: number;
-  // total_inprocess_cod: string;
-  // total_delivered_orders: number;
-  // total_delivered_cod: string;
-  // total_returned_orders: number;
-  // ageing_avg: number;
-  // courier_ageing_avg: number;
 }
 
-interface CourierCardsProps {
+interface ShipmentsCardsProps {
   summary?: CourierSummary;
   loading?: boolean;
 }
 
-export default function CourierCards({ summary, loading }: CourierCardsProps) {
+export default function ShipmentsCards({ summary, loading }: ShipmentsCardsProps) {
+
+
   const cards = [
     {
       title: "Total Bookings",
@@ -99,22 +95,30 @@ export default function CourierCards({ summary, loading }: CourierCardsProps) {
       icon: Banknote,
     },
     {
+      title: "In-Process Orders",
+      value: formatNumber(summary?.total_inprocess),
+      icon: Truck,
+    },
+    {
+      title: "In-Process COD",
+      value: "PKR. " + formatNumber(summary?.total_inprocess_cod),
+      icon: CircleDollarSign,
+    },
+    {
       title: "Delivered Orders",
-      value: formatNumber(summary?.delivered_orders),
+      value: formatNumber(summary?.total_delivered_orders),
       icon: Truck,
     },
     {
       title: "Delivered Amount",
-      value: "PKR. " + formatNumber(summary?.total_delivered_amount),
+      value: "PKR. " + formatNumber(summary?.total_delivered_cod),
       icon: CircleDollarSign,
     },
-
     {
       title: "Returned Orders",
-      value: formatNumber(summary?.returned_orders),
+      value: formatNumber(summary?.total_returned_orders),
       icon: RotateCcw,
     },
-
     {
       title: "Shipment Delivered to Payment by 3PL (Avg. Days)",
       value: formatNumber(summary?.courier_ageing_avg),
@@ -127,58 +131,10 @@ export default function CourierCards({ summary, loading }: CourierCardsProps) {
     },
   ];
 
-  // const cards = [
-  //   {
-  //     title: "Total Bookings",
-  //     value: formatNumber(summary?.total_bookings),
-  //     icon: Package,
-  //   },
-  //   {
-  //     title: "Total COD",
-  //     value: "PKR. " + formatNumber(summary?.total_cod),
-  //     icon: Banknote,
-  //   },
-  //   {
-  //     title: "In-Process Orders",
-  //     value: formatNumber(summary?.total_inprocess),
-  //     icon: Truck,
-  //   },
-  //   {
-  //     title: "In-Process COD",
-  //     value: "PKR. " + formatNumber(summary?.total_inprocess_cod),
-  //     icon: CircleDollarSign,
-  //   },
-  //   {
-  //     title: "Delivered Orders",
-  //     value: formatNumber(summary?.total_delivered_orders),
-  //     icon: Truck,
-  //   },
-  //   {
-  //     title: "Delivered Amount",
-  //     value: "PKR. " + formatNumber(summary?.total_delivered_cod),
-  //     icon: CircleDollarSign,
-  //   },
-  //   {
-  //     title: "Returned Orders",
-  //     value: formatNumber(summary?.total_returned_orders),
-  //     icon: RotateCcw,
-  //   },
-  //   {
-  //     title: "Shipment Delivered to Payment by 3PL (Avg. Days)",
-  //     value: formatNumber(summary?.courier_ageing_avg),
-  //     icon: Clock,
-  //   },
-  //   {
-  //     title: "Shipment Delivered to Payment by Orio (Avg. Days)",
-  //     value: formatNumber(summary?.ageing_avg),
-  //     icon: Clock,
-  //   },
-  // ];
-
   return (
     <div className="grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 mb-6">
       {cards.map((card, index) => (
-        <CourierCard
+        <ShipmentsCard
           key={index}
           title={card.title}
           value={card.value}

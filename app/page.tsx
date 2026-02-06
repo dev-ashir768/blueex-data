@@ -73,28 +73,28 @@ export default function Home() {
           <KPICard
             // title="Total Arrival COD"
             title="Total COD Booked"
-            value={formatCurrency(totals.total_arrival_cod)}
+            value={formatCurrency(totals.total_cod)}
             icon={Truck}
             loading={isLoading}
           />
           <KPICard
             // title="Arrival Delivered COD"
             title="Total COD Delivered"
-            value={formatCurrency(totals.arrival_dv_cod)}
+            value={formatCurrency(totals.delivered_cod)}
             icon={PackageCheck}
             loading={isLoading}
           />
           <KPICard
             // title="Arrival Not Delivered COD"
-            title="Total In Transit COD"
-            value={formatCurrency(totals.arrival_not_dv_cod)}
+            title="Total In Process COD"
+            value={formatCurrency(totals.inprocess_cod)}
             icon={Timer}
             loading={isLoading}
           />
           <KPICard
             // title="Arrival Payable COD"
             title="COD Payable"
-            value={formatCurrency(totals.arrival_payable_cod)}
+            value={formatCurrency(totals.payable_cod)}
             icon={Banknote}
             loading={isLoading}
           />
