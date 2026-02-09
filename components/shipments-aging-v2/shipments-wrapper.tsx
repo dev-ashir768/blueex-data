@@ -149,49 +149,49 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "id",
       header: "Order ID",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "acno",
       header: "ACNO",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "order_ref",
       header: "Order Ref",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "courier_name",
       header: "Courier",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "consigment_no",
       header: "CN",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "payment_type",
       header: "Payment Type",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "order_amount",
       header: "COD",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "booking_date",
       header: "Booking Date",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
@@ -204,7 +204,7 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "last_mile_status",
       header: "Last Mile Status",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => {
         const status = row.getValue("last_mile_status") as string;
@@ -238,7 +238,7 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "last_mile_status_date",
       header: "Last Mile Status Date",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
@@ -251,13 +251,13 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "invoice_no",
       header: "3PL Invoice No",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "tpl_invoice_settle_date",
       header: "3PL Invoice Date",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
@@ -270,7 +270,7 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "tpl_invoice_receiving_date",
       header: "Orio Receiving Date",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
@@ -284,7 +284,7 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "statement_id",
       header: "Orio Invoice No",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => {
         const value = row.getValue("statement_id");
@@ -294,7 +294,7 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "statement_date",
       header: "Orio Invoice Date",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
@@ -307,7 +307,7 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "mark_payment_paid_date",
       header: "3PL Delivered To Payment By Orio",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
@@ -320,7 +320,7 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "ageing_days",
       header: "Ageing Days",
-      enableColumnFilter: false,
+      enableColumnFilter: true,
       filterFn: "arrIncludesSome",
     },
     

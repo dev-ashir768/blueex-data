@@ -91,7 +91,7 @@ export default function ShipmentsCards({ summary, loading }: ShipmentsCardsProps
     },
     {
       title: "Total COD",
-      value: "PKR. " + formatNumber(summary?.total_cod),
+      value: "PKR " + formatNumber(summary?.total_cod),
       icon: Banknote,
     },
     {
@@ -101,7 +101,7 @@ export default function ShipmentsCards({ summary, loading }: ShipmentsCardsProps
     },
     {
       title: "In-Process COD",
-      value: "PKR. " + formatNumber(summary?.total_inprocess_cod),
+      value: "PKR " + formatNumber(summary?.total_inprocess_cod),
       icon: CircleDollarSign,
     },
     {
@@ -111,7 +111,7 @@ export default function ShipmentsCards({ summary, loading }: ShipmentsCardsProps
     },
     {
       title: "Delivered Amount",
-      value: "PKR. " + formatNumber(summary?.total_delivered_cod),
+      value: "PKR " + formatNumber(summary?.total_delivered_cod),
       icon: CircleDollarSign,
     },
     {

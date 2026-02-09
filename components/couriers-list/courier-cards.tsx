@@ -95,7 +95,7 @@ export default function CourierCards({ summary, loading }: CourierCardsProps) {
     },
     {
       title: "Total COD",
-      value: "PKR. " + formatNumber(summary?.total_cod),
+      value: "PKR " + formatNumber(summary?.total_cod),
       icon: Banknote,
     },
     {
@@ -105,7 +105,7 @@ export default function CourierCards({ summary, loading }: CourierCardsProps) {
     },
     {
       title: "Delivered Amount",
-      value: "PKR. " + formatNumber(summary?.total_delivered_amount),
+      value: "PKR " + formatNumber(summary?.total_delivered_amount),
       icon: CircleDollarSign,
     },
 
