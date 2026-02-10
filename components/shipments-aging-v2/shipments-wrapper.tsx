@@ -280,7 +280,6 @@ export default function ShipmentsWrapper() {
         </span>
       ),
     },
-
     {
       accessorKey: "statement_id",
       header: "Orio Invoice No",
@@ -323,13 +322,14 @@ export default function ShipmentsWrapper() {
       enableColumnFilter: true,
       filterFn: "arrIncludesSome",
     },
-    
   ];
 
   return (
     <div className="space-y-4 py-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-slate-800">Shipments Aging V2</h2>
+        <h2 className="text-2xl font-bold text-slate-800">
+          Shipments Aging V2
+        </h2>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700 cursor-pointer">

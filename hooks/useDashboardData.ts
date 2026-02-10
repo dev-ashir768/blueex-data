@@ -3,9 +3,14 @@ import axios from "axios";
 
 export interface OrioPayload {
   acno: string;
+  total_orders: string;
   total_cod: string;
+  dv_rt_orders: string;
   delivered_cod: string;
+  inprocess_orders: string;
   inprocess_cod: string;
+  // dv_outstanding_cod: string;
+  payable_orders: string;
   payable_cod: string;
 }
 
@@ -22,7 +27,7 @@ export const useDashboardData = () => {
     queryKey: ["orio-data"],
     queryFn: async () => {
       const response = await axios.get(
-        "https://oms.getorio.com/api/v1/backoffice/blx_3pl_cod",
+        "https://oms.getorio.com/api/v1/backoffice/blx_3pl_cod.php",
       );
       return response.data;
     },
@@ -34,9 +39,14 @@ export const useDashboardData = () => {
   const aggregateData = () => {
     if (!orioQuery.data?.payload)
       return {
+        total_orders: 0,
         total_cod: 0,
+        dv_rt_orders: 0,
         delivered_cod: 0,
+        inprocess_orders: 0,
         inprocess_cod: 0,
+        // dv_outstanding_cod: 0,
+        payable_orders: 0,
         payable_cod: 0,
       };
 
@@ -48,15 +58,26 @@ export const useDashboardData = () => {
 
     return orioQuery.data.payload.reduce(
       (acc, curr) => ({
+        total_orders: acc.total_orders + parseNum(curr.total_orders),
         total_cod: acc.total_cod + parseNum(curr.total_cod),
+        dv_rt_orders: acc.dv_rt_orders + parseNum(curr.dv_rt_orders),
         delivered_cod: acc.delivered_cod + parseNum(curr.delivered_cod),
+        inprocess_orders: acc.inprocess_orders + parseNum(curr.inprocess_orders),
         inprocess_cod: acc.inprocess_cod + parseNum(curr.inprocess_cod),
+        // dv_outstanding_cod:
+        //   acc.dv_outstanding_cod + parseNum(curr.dv_outstanding_cod),
+        payable_orders: acc.payable_orders + parseNum(curr.payable_orders),
         payable_cod: acc.payable_cod + parseNum(curr.payable_cod),
       }),
       {
+        total_orders: 0,
         total_cod: 0,
+        dv_rt_orders: 0,
         delivered_cod: 0,
+        inprocess_orders: 0,
         inprocess_cod: 0,
+        // dv_outstanding_cod: 0,
+        payable_orders: 0,
         payable_cod: 0,
       },
     );

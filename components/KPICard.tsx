@@ -1,10 +1,17 @@
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, Info } from "lucide-react";
+import { ReactNode } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface KPICardProps {
   title: string;
-  value: string | number;
+  value: ReactNode;
   icon: LucideIcon;
   loading?: boolean;
+  description?: string;
 }
 
 export default function KPICard({
@@ -12,6 +19,7 @@ export default function KPICard({
   value,
   icon: Icon,
   loading,
+  description,
 }: KPICardProps) {
   if (loading) {
     return (
@@ -27,21 +35,33 @@ export default function KPICard({
   }
 
   return (
-    <div className="group bg-white border border-slate-200 hover:border-blue-300 rounded-3xl p-6 relative overflow-hidden transition-all hover:shadow-xl hover:shadow-blue-500/5 shadow-sm">
+    <div className="group bg-white border border-slate-200 hover:border-blue-300 rounded-3xl px-4 py-[10px] relative overflow-hidden transition-all hover:shadow-xl hover:shadow-blue-500/5 shadow-sm">
       {/* Decorative gradient blur */}
       <div className="absolute -right-4 -top-4 w-20 h-20 bg-blue-500/3 rounded-full blur-2xl group-hover:bg-blue-500/6 transition-all" />
 
-      <div className="flex justify-between items-start mb-4 relative z-10">
+      <div className="flex justify-between items-center mb-4 relative z-10">
         <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
           <Icon size={24} />
         </div>
+        {description && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button className="text-blue-600 hover:text-blue-600 transition-colors p-1">
+                <Info size={18} />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-slate-200">
+              <p className="max-w-[200px] text-black">{description}</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
       </div>
 
       <div className="relative z-10">
         <h3 className="text-slate-500 text-sm font-bold mb-1">{title}</h3>
-        <p className="text-3xl font-medium text-slate-900 tracking-tight">
+        <div className="text-3xl font-normal text-slate-900 tracking-tight">
           {value}
-        </p>
+        </div>
       </div>
 
       <div className="absolute bottom-0 left-0 w-full h-[2px] bg-linear-to-r from-transparent via-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
