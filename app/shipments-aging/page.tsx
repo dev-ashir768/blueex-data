@@ -1,6 +1,6 @@
 "use client";
 
-import CourierList from "@/components/couriers-list/courier-list-wrapper";
+import ShipmentsWrapper from "@/components/shipments-aging-v2/shipments-wrapper";
 import { logout } from "@/lib/auth";
 import { LogOut } from "lucide-react";
 import Image from "next/image";
@@ -38,7 +38,7 @@ export default function page() {
         </div>
       </nav>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <CourierList />
+        <ShipmentsWrapper />
       </div>
     </>
   );

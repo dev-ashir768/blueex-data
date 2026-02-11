@@ -328,7 +328,7 @@ export default function ShipmentsWrapper() {
     <div className="space-y-4 py-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-slate-800">
-          Shipments Aging V2
+          Shipments Aging
         </h2>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
