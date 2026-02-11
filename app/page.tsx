@@ -1,31 +1,25 @@
 "use client";
 
-import { useDashboardData } from "@/hooks/useDashboardData";
 import KPICard from "@/components/KPICard";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import {
-  LogOut,
-  Truck,
-  PackageCheck,
-  Timer,
-  Banknote,
-} from "lucide-react";
+import { LogOut, Truck, PackageCheck, Timer, Banknote } from "lucide-react";
 import { logout } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import useDashboardCardsData from "@/hooks/useDashboardCardsData";
 
 export default function Home() {
-  const { totals, isLoading } = useDashboardData();
+  const { data, isLoading, isError } = useDashboardCardsData();
 
-  const formatCurrency = (num: number) => {
-    return new Intl.NumberFormat("PKR", {
-      style: "currency",
-      currency: "PKR",
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
+  // const formatCurrency = (num: string | number) => {
+  //   return new Intl.NumberFormat("PKR", {
+  //     style: "currency",
+  //     currency: "PKR",
+  //     maximumFractionDigits: 0,
+  //   }).format(Number(num));
+  // };
 
   const router = useRouter();
 
@@ -89,71 +83,93 @@ export default function Home() {
               value={
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-md">
-                      {formatCurrency(totals.total_cod)}
-                    </span>
+                    <span className="text-md">{"PKR " + data.total_cod}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <span className="text-slate-600 text-xs font-semibold uppercase tracking-wider">
+                    <span className="text-slate-600 text-xs font-semibold uppercase tracking-normal">
                       Total Orders:
                     </span>
                     <span className=" text-xs font-semibold uppercase tracking-wider">
-                      {totals.total_orders.toLocaleString()}
+                      {Number(data.total_orders).toLocaleString()}
                     </span>
                   </div>
                 </div>
               }
               icon={Truck}
               loading={isLoading}
+              error={isError}
             />
-            <KPICard
-              title="Total Orders Delivered"
-              description="Total number of orders successfully delivered to customers."
-              value={totals.dv_rt_orders.toLocaleString()}
-              icon={Truck}
-              loading={isLoading}
-            />
+
             <KPICard
               title="Total Outstanding COD"
               description="Total COD amount still pending for delivered orders."
-              value={formatCurrency(totals.delivered_cod)}
+              value={
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-md">
+                      {"PKR " + data.delivered_cod}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-slate-600 text-xs font-semibold uppercase tracking-normal">
+                      Total DVT & RT Orders:
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-wider">
+                      {Number(data.dv_rt_orders).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              }
               icon={PackageCheck}
               loading={isLoading}
+              error={isError}
             />
-            <KPICard
-              title="Total In Process Orders"
-              description="Number of orders currently in the fulfillment pipeline."
-              value={totals.inprocess_orders.toLocaleString()}
-              icon={Truck}
-              loading={isLoading}
-            />
+
             <KPICard
               title="Total In Process COD"
               description="Total COD value of orders currently in process."
-              value={formatCurrency(totals.inprocess_cod)}
+              value={
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-md">
+                      {"PKR " + data.inprocess_cod}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-slate-600 text-xs font-semibold uppercase tracking-normal">
+                      Total In Process Orders:
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-wider">
+                      {Number(data.inprocess_orders).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              }
               icon={Timer}
               loading={isLoading}
-            />
-            {/* <KPICard
-            // title="Arrival Not Delivered COD"
-            title="Total Outstanding COD"
-            value={formatCurrency(totals.dv_outstanding_cod)}
-            icon={Timer}
-            loading={isLoading}
-          /> */}
-            <KPICard
-              title="Total Payable Orders"
-              description="Total number of orders that have been processed and are ready for payment."
-              value={totals.payable_orders.toLocaleString()}
-              icon={Truck}
-              loading={isLoading}
+              error={isError}
             />
             <KPICard
               title="Payable COD"
               description="Total COD amount ready for payment to the customer."
-              value={formatCurrency(totals.payable_cod)}
+              value={
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-md">{"PKR " + data.payable_cod}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-slate-600 text-xs font-semibold uppercase tracking-normal">
+                      Total Payable Orders:
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-wider">
+                      {Number(data.payable_orders).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              }
               icon={Banknote}
               loading={isLoading}
+              error={isError}
             />
           </div>
         </TooltipProvider>
