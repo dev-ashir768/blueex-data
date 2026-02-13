@@ -44,6 +44,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { formSchema, FormValueType } from "@/schemas/shipmentSchemas";
 import ShipmentsCards from "./shipments-cards";
+import Image from "next/image";
 
 const today = new Date();
 
@@ -54,6 +55,14 @@ const DEFAULT_FILTERS = {
   },
   courier_id: "37",
   status_type: "1" as const,
+};
+
+const COURIER_LOGOS: Record<string, string> = {
+  3: "/icon/leopards.svg",
+  12: "/icon/postex_partner.svg",
+  18: "/icon/postex.svg",
+  24: "/icon/do_deliver.svg",
+  37: "/icon/tranzo.svg",
 };
 
 export default function ShipmentsWrapper() {
@@ -165,10 +174,30 @@ export default function ShipmentsWrapper() {
       filterFn: "arrIncludesSome",
     },
     {
-      accessorKey: "courier_name",
+      accessorKey: "courier_id",
       header: "Courier",
-      enableColumnFilter: true,
+      enableColumnFilter: false,
       filterFn: "arrIncludesSome",
+      cell: ({ row }) => {
+        const courierId = row.getValue("courier_id") as string;
+        const logoPath = COURIER_LOGOS[courierId];
+
+        return (
+          <div className="flex items-center justify-start min-w-[100px]">
+            {logoPath ? (
+              <Image
+                src={logoPath}
+                alt={`Courier ${courierId}`}
+                width={80}
+                height={24}
+                className="h-6 w-auto object-contain"
+              />
+            ) : (
+              <span className="text-sm font-medium">{courierId}</span>
+            )}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "consigment_no",
@@ -178,20 +207,20 @@ export default function ShipmentsWrapper() {
     },
     {
       accessorKey: "payment_type",
-      header: "Payment Type",
-      enableColumnFilter: true,
+      header: "Pay Type",
+      enableColumnFilter: false,
       filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "order_amount",
       header: "COD",
-      enableColumnFilter: true,
+      enableColumnFilter: false,
       filterFn: "arrIncludesSome",
     },
     {
       accessorKey: "booking_date",
       header: "Booking Date",
-      enableColumnFilter: true,
+      enableColumnFilter: false,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
@@ -237,8 +266,8 @@ export default function ShipmentsWrapper() {
     },
     {
       accessorKey: "last_mile_status_date",
-      header: "Last Mile Status Date",
-      enableColumnFilter: true,
+      header: "Last Mile Date",
+      enableColumnFilter: false,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
@@ -257,7 +286,7 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "tpl_invoice_settle_date",
       header: "3PL Invoice Date",
-      enableColumnFilter: true,
+      enableColumnFilter: false,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
@@ -270,7 +299,7 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "tpl_invoice_receiving_date",
       header: "Orio Receiving Date",
-      enableColumnFilter: true,
+      enableColumnFilter: false,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
@@ -293,7 +322,7 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "statement_date",
       header: "Orio Invoice Date",
-      enableColumnFilter: true,
+      enableColumnFilter: false,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
@@ -306,7 +335,7 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "mark_payment_paid_date",
       header: "3PL Delivered To Payment By Orio",
-      enableColumnFilter: true,
+      enableColumnFilter: false,
       filterFn: "arrIncludesSome",
       cell: ({ row }) => (
         <span>
@@ -319,7 +348,7 @@ export default function ShipmentsWrapper() {
     {
       accessorKey: "ageing_days",
       header: "Ageing Days",
-      enableColumnFilter: true,
+      enableColumnFilter: false,
       filterFn: "arrIncludesSome",
     },
   ];
@@ -327,9 +356,7 @@ export default function ShipmentsWrapper() {
   return (
     <div className="space-y-4 py-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-slate-800">
-          Shipments Aging
-        </h2>
+        <h2 className="text-2xl font-bold text-slate-800">Shipments Aging</h2>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700 cursor-pointer">

@@ -34,7 +34,7 @@ export function DataTableToolbar<TData>({
       <div className="relative w-full sm:w-auto">
         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Search Records..."
+          placeholder="Search CN..."
           className="h-9 w-full sm:w-[300px] pl-9 pr-8 bg-background"
           value={globalFilter ?? ''}
           onChange={(e) => setGlobalFilter(e.target.value)}
@@ -65,7 +65,7 @@ export function DataTableToolbar<TData>({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-9 ml-auto sm:ml-0 gap-2 text-xs font-medium cursor-pointer shadow-sm"
+                  className="h-9 ml-auto sm:ml-0 gap-2 text-xs font-medium cursor-pointer shadow-sm bg-gray-200 hover:bg-gray-300"
                 >
                   <Download className="h-4 w-4 opacity-70" />
                   <span className="hidden sm:inline-block">Export</span>
@@ -103,7 +103,7 @@ export function DataTableToolbar<TData>({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-9 gap-2 text-xs font-medium shadow-sm cursor-pointer"
+                  className="h-9 gap-2 text-xs font-medium shadow-sm cursor-pointer  bg-gray-200 hover:bg-gray-300"
                 >
                   <SlidersHorizontal className="h-4 w-4 opacity-70" />
                   <span className="hidden sm:inline-block">Column Visibility</span>
