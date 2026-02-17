@@ -253,9 +253,9 @@ export default function ShipmentsWrapper() {
                   : "secondary"
             }
             className={cn(
-              "capitalize",
-              isDelivered && "bg-green-500 hover:bg-green-500",
-              isReturnToShipper && "bg-red-500 hover:bg-red-500",
+              "uppercase rounded-[6px] py-[5px] px-[12px]",
+              isDelivered && "bg-[#2FB5A944] hover:bg-[#2FB5A944] text-[#2FB5A9]",
+              isReturnToShipper && "bg-[#F6546444] hover:bg-[#F6546444] text-[#F65464]",
               isOther && "bg-yellow-400 hover:bg-yellow-400 text-white",
             )}
           >
